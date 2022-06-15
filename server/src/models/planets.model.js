@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { parse } = require('csv-parse');
-
-const habitablePlanets = [];
+const planets = require('./planets.mongo');
 
 function isHabitablePlanet(planet) {
     return planet[`koi_disposition`] === 'CONFIRMED'
@@ -18,9 +17,9 @@ function loadPlanetsData() {
                 comment: '#',
                 columns: true
             }))
-            .on('data', (data) => {
+            .on('data', async (data) => {
                 if(isHabitablePlanet(data)) {
-                    habitablePlanets.push(data);
+                    await savePlanet(data);
                 }
                 resolve();
             })
@@ -28,18 +27,31 @@ function loadPlanetsData() {
                 console.log(err);
                 reject(err);
             })
-            .on('end', () => {
-                console.log(habitablePlanets.map((planet) => {
-                    return planet[`kepler_name`];
-                }));
-                console.log(`There are ${habitablePlanets.length} habitable planets in our Milkyway!`);
+            .on('end', async () => {
+                const countPlanetsFound = (await getAllPlanets()).length;
+                console.log(`${countPlanetsFound} habitable planets found.`);
             });
     });
 }
 
-function getAllPlanets() {
-    return habitablePlanets;
+async function getAllPlanets() {
+    // return habitablePlanets;
+    return planets.find({});
 }
+
+async function savePlanet (planet) {
+    try {
+        await planets.updateOne({
+            keplerName: planet.kepler_name
+        }, {
+            keplerName: planet.kepler_name
+        }, {
+            upsert: true
+        });
+    } catch (err) {
+        console.error(`Could not save planets ${err}`);
+    }
+ }
 
 module.exports = {
     getAllPlanets,
