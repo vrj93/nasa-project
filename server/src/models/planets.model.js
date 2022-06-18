@@ -39,7 +39,7 @@ async function getAllPlanets() {
     return planets.find({});
 }
 
-async function savePlanet (planet) {
+async function savePlanet(planet) {
     try {
         await planets.updateOne({
             keplerName: planet.kepler_name
@@ -51,7 +51,7 @@ async function savePlanet (planet) {
     } catch (err) {
         console.error(`Could not save planets ${err}`);
     }
- }
+}
 
 module.exports = {
     getAllPlanets,
