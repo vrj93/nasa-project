@@ -1,3 +1,9 @@
+/*.env file requires Absolute path
+"path.resolve" indicates the path where "path" module is installed. (Server folder)*/
+
+const path = require('path');
+require('dotenv').config({path: path.resolve('../.env')});
+
 const http = require('http');
 const mongoose = require('mongoose');
 const app = require('./app');
@@ -5,7 +11,7 @@ const { loadPlanetsData } = require('./models/planets.model');
 
 const PORT = process.env.PORT || 8000;
 
-const MONGO_URL = 'mongodb+srv://vivek93:gqQvj8hxu0E5Cgkp@nasacluster.eck32.mongodb.net/nasa?retryWrites=true&w=majority';
+const MONGO_URL = process.env.MONGO_URL;
 
 const server = http.createServer(app);
 
