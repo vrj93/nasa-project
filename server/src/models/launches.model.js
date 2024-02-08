@@ -3,7 +3,7 @@ const planets = require('./planets.mongo');
 const DEFAULF_FLIGHT_NUMBER = 100;
 
 async function exitsLaunchWithId(launchId) {
-    return launchesDatabase.findOne({
+    return await launchesDatabase.findOne({
         flightNumber: launchId
     });
 }
@@ -17,7 +17,7 @@ async function saveLaunches(launch) {
         throw new Error('No planet matches our record...');
     }
 
-    return launchesDatabase.findOneAndUpdate({
+    return await launchesDatabase.findOneAndUpdate({
         flightNumber: launch.flightNumber
     }, launch, {
         upsert: true
@@ -37,7 +37,7 @@ async function getLatestLaunch() {
 }
 
 async function getAllLaunches() {
-    return launchesDatabase
+    return await launchesDatabase
         .find({}, { _id: 0, __v: 0 });
 }
 
