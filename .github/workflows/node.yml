@@ -14,7 +14,4 @@ jobs:
               with:
                 node-version: '20'
             - run: npm install
-            - run: npm install react-scripts
-            - run: npm install react-dom
-            - run: npm install react-router-dom
             - run: npm run build --prefix client
