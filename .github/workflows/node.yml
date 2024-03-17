@@ -1,0 +1,17 @@
+name: Nasa Launch CI
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: action/checkout@v3
+            - name: Use Node.js Version 20
+              uses: action/setup-node@v3
+              with:
+                node-version: '20'
+            - run: npm install
+            - run: npm run build --prefix client
