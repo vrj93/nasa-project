@@ -17,3 +17,4 @@ jobs:
             - run: cd ./server && npm install
             - run: cd ./client && npm install
             - run: npm run build --prefix client
+            - run: npm test
