@@ -15,4 +15,5 @@ jobs:
                 node-version: '20'
             - run: npm install
             - run: npm install react-scripts
+            - run: npm install react-dom
             - run: npm run build --prefix client
