@@ -4,10 +4,18 @@ Object.assign(global, { TextDecoder, TextEncoder });
 
 const request = require('supertest');
 const App = require('../../app.js');
+const {
+    loadPlanetsData,
+} = require('../../models/planets.model');
 
 describe('Launches API', () => {
     beforeAll(async () => {
         await mongoConnect();
+        await loadPlanetsData();
+    });
+
+    afterAll(async () => {
+        await mongoDisconnect();
     });
 
     describe('Test GET/ launches', () => {
